@@ -193,22 +193,21 @@ void lista::operator * (int scalar)  //supraincarcare operator *
 
 lista& lista::operator +(lista& L)  //supraincarcare operator + 
 { 
+    
     lista newL;
-    node* p = this->start;
-    while (p) {
-        newL.inserareFinal(p->info);
-        p = p->next;
-    }
-    p = L.start;
-    while (p) {
-        newL.inserareFinal(p->info);
-        p = p->next;
-    }
-    newL.length = this->length + L.length;
+    newL.start = this->start;
+    newL.end = this->end;
+    node* aux = new node;
+    aux = L.start;
+    newL.end->next = aux;
+    aux->before = newL.end;
+    newL.end = L.end;
+    newL.end->next = newL.start;
+    newL.start->before = newL.end;
     return newL;
 }
 
-bool lista::operator<(lista L)
+bool lista::operator < (lista L)  //supraincarcare operator <
 {
     int x, y;
     x = this->Suma();
@@ -217,7 +216,7 @@ bool lista::operator<(lista L)
         return true;
     else return false;
 }
-bool lista::operator>(lista L)
+bool lista::operator > (lista L)  //supraincarcare operator >
 {
     int x, y;
     x = this->Suma();
