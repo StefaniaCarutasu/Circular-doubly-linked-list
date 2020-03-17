@@ -155,13 +155,27 @@ int lista::detMin()
     return min;
 }
 
+void lista::inversare() //inversare
+{
+    lista* L = new lista;
+    node* aux = this->end;
+    int i = 0;
+    while (i < length)
+    {
+        L->inserareFinal(aux->info);
+        aux = aux->before;
+    }
+    *this = *L;  //???? oare merge ????
+}
+
 void lista::operator = (lista& L) //supraincarcare operator =
-{ 
+{
     this->~lista();
     this->length = L.length;
     this->start = L.start;
     this->end = L.end;
 }
+
 int lista::operator [] (int poz)  //supraincarcare operator []
 {
     if (poz > this->length || poz < 0)
