@@ -1,6 +1,6 @@
 #pragma once
 #include "node.h"
-#include<fstream>
+#include<iostream>
 using namespace std;
 
 class lista
@@ -25,12 +25,12 @@ public:
     int detMax();   //facut
     friend ostream& operator << (ostream&, const lista&);
     friend istream& operator >> (istream&, const lista&);
-    friend lista& operator + (const lista&, const lista&);
-    friend lista& operator > (const lista&, const lista&);
-    friend lista& operator < (const lista&, const lista&);
-    lista& operator [] (const int&);
-    lista& operator * (const int&);
-    lista& operator = (const lista&);
+    lista& operator + (lista&);    //facut
+    bool operator > (lista);    //facut
+    bool operator < (lista);    //facut
+    int operator [] (int);    //facut
+    void operator * (int);   //facut
+    void operator = (lista&);  //facut
     
 };
 

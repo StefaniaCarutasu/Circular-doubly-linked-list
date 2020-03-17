@@ -16,11 +16,13 @@ lista::~lista() //destructor
 { 
     this->length = 0;
     node* p = start;
-    while (p) {
+    while (p) 
+    {
         node* q = p->next;
         delete p;
         p = q;
     }
+    delete p;
 }
 void lista::inserareInceput(int x)
 {
@@ -60,9 +62,13 @@ void lista::inserarePoz(int x, int poz)
     aux->info = x;
     aux->next = NULL;
     aux->before = NULL;
+    if (poz <= 0)
+        this->inserareInceput(x);
+    if (poz >= length)
+        this->inserareFinal(x);
     if (length == 0)
     {
-        start = aux;
+        this->start = aux;
     }
     else
     {
@@ -91,7 +97,7 @@ void lista::stergerePoz(int poz)
     aux->before->next = aux->next;
     aux->next->before = aux->before;
     delete aux;
-    length--;
+    this->length--;
 }
 int lista::cautare(int x)
 {
@@ -147,4 +153,76 @@ int lista::detMin()
         aux = aux->next;
     }
     return min;
+}
+
+void lista::operator = (lista& L) //supraincarcare operator =
+{ 
+    this->~lista();
+    this->length = L.length;
+    this->start = L.start;
+    this->end = L.end;
+}
+int lista::operator [] (int poz)  //supraincarcare operator []
+{
+    if (poz > this->length || poz < 0)
+        return -1;
+    else
+    {
+        node* aux = start;
+        int i = 0;
+        while (i != poz)
+        {
+            aux = aux->next;
+            i++;
+        }
+        return aux->info;
+    }
+
+}
+
+void lista::operator * (int scalar)  //supraincarcare operator *
+{
+    node* aux = new node;
+    aux = start;
+    while (aux->next != this->start)
+    {
+        aux->info *= scalar;
+        aux = aux->next;
+    }
+}
+
+lista& lista::operator +(lista& L)  //supraincarcare operator + 
+{ 
+    lista newL;
+    node* p = this->start;
+    while (p) {
+        newL.inserareFinal(p->info);
+        p = p->next;
+    }
+    p = L.start;
+    while (p) {
+        newL.inserareFinal(p->info);
+        p = p->next;
+    }
+    newL.length = this->length + L.length;
+    return newL;
+}
+
+bool lista::operator<(lista L)
+{
+    int x, y;
+    x = this->Suma();
+    y = L.Suma();
+    if (x < y)
+        return true;
+    else return false;
+}
+bool lista::operator>(lista L)
+{
+    int x, y;
+    x = this->Suma();
+    y = L.Suma();
+    if (x > y)
+        return true;
+    else return false;
 }
