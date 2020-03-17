@@ -173,5 +173,6 @@ int lista::detMin()
 
 int main()
 {
- 
+    cout << 5;
+    return 0;
 }
