@@ -39,9 +39,9 @@ node* lista::getStart()
     return this->start;
 }
 
-node* lista::getEnd()
+int lista::getLength()
 {
-    return this->end;
+    return this->length;
 }
 
 
@@ -201,9 +201,18 @@ ostream& operator << (ostream& out, lista& L)
 
 }
 
-istream& operator >> (istream&, lista& L)
+istream& operator >> (istream& in, lista& L)
 {
-
+    int lungime, i, x;
+    cout << "Introduceti lungimea listei";
+    cin >> lungime;
+    for (i = 0; i < lungime; i++)
+    {
+        in >> x;
+        L.inserareFinal(x);
+    }
+    return in;
+    
 }
 
 void lista::operator = (lista& L) //supraincarcare operator =

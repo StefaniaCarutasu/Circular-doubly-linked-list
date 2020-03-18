@@ -14,7 +14,7 @@ public:
     lista(const lista& l); //facut
     ~lista(); //facut
     node* getStart();
-    node* getEnd();
+    int getLength();
     void inserareInceput(int);  //facut
     void inserarePoz(int, int);  //facut
     void inserareFinal(int);    //facut
