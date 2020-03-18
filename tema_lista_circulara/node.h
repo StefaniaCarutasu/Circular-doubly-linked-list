@@ -8,6 +8,8 @@ class node
 public:
     node();
     node(int, node*, node*);
+    node* getNext();
+    int getInfo();
     friend class lista;
 };
 

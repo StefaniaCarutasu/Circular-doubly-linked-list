@@ -11,8 +11,10 @@ class lista
 public:
     lista(); //facut
     lista(int[], int); //facut
-    lista(const lista& l); //constructor de copiere candva sper!?!?!?!?
+    lista(const lista& l); //facut
     ~lista(); //facut
+    node* getStart();
+    node* getEnd();
     void inserareInceput(int);  //facut
     void inserarePoz(int, int);  //facut
     void inserareFinal(int);    //facut
@@ -20,11 +22,11 @@ public:
     int cautare(int);   //facut
     int Suma(); //facut
     int nrElem();   //facut
-    void inversare();
+    void inversare();   //facut
     int detMin();   //facut
     int detMax();   //facut
-    friend ostream& operator << (ostream&, const lista&);
-    friend istream& operator >> (istream&, const lista&);
+    friend ostream& operator << (ostream&, const lista&);   //
+    friend istream& operator >> (istream&, const lista&);   //
     lista& operator + (lista&);    //facut
     bool operator > (lista);    //facut
     bool operator < (lista);    //facut

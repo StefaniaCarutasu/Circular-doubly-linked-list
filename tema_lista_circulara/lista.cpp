@@ -4,6 +4,7 @@
 using namespace std;
 
 lista::lista() : length(0), start(NULL), end(NULL) {} //constructor fara parametrii
+
 lista::lista(int v[], int n)  //constructor cu prametrii
 {
     length = 0; start = NULL; end = NULL;
@@ -12,6 +13,14 @@ lista::lista(int v[], int n)  //constructor cu prametrii
         inserareFinal(v[i]);
     }
 }
+
+lista::lista(const lista& L) //constructor de copiere
+{
+    this->start = L.start;
+    this->end = L.end;
+    this->length = L.length;
+}
+
 lista::~lista() //destructor
 { 
     this->length = 0;
@@ -24,6 +33,18 @@ lista::~lista() //destructor
     }
     delete p;
 }
+
+node* lista::getStart()
+{
+    return this->start;
+}
+
+node* lista::getEnd()
+{
+    return this->end;
+}
+
+
 void lista::inserareInceput(int x)
 {
     node* aux = new node;
@@ -168,6 +189,23 @@ void lista::inversare() //inversare
     *this = *L;  //???? oare merge ????
 }
 
+ostream& operator << (ostream& out, lista& L)
+{
+    node* aux = L.getStart();
+    while (aux->getNext()!=L.getStart())
+    {
+        out << aux->getInfo() << ' ';
+        aux = aux->getNext();
+    }
+    return out;
+
+}
+
+istream& operator >> (istream&, lista& L)
+{
+
+}
+
 void lista::operator = (lista& L) //supraincarcare operator =
 {
     this->~lista();
@@ -218,6 +256,7 @@ lista& lista::operator +(lista& L)  //supraincarcare operator +
     newL.end = L.end;
     newL.end->next = newL.start;
     newL.start->before = newL.end;
+    newL.length = this->length + L.length;
     return newL;
 }
 

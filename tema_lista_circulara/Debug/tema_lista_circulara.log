@@ -1,4 +1,4 @@
 ﻿  lista.cpp
-C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\lista.cpp(120): warning C4715: 'lista::cautare': not all control paths return a value
-C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\lista.cpp(221): warning C4172: returning address of local variable or temporary: newL
-  tema_lista_circulara.vcxproj -> C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\Debug\tema_lista_circulara.exe
+C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\lista.cpp(141): warning C4715: 'lista::cautare': not all control paths return a value
+C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\lista.cpp(206): error C4716: 'operator>>': must return a value
+C:\Users\STEFANIA\Desktop\Facultate\OOP_teme_laborator\tema_lista_circulara\lista.cpp(259): warning C4172: returning address of local variable or temporary: newL
