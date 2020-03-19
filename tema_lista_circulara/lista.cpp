@@ -23,23 +23,26 @@ lista::lista(const lista& L) //constructor de copiere
 
 lista::~lista() //destructor
 { 
-    this->length = 0;
-    node* p = start;
-    while (p) 
-    {
-        node* q = p->next;
-        delete p;
-        p = q;
+    if (length > 0) {
+        node* p = this->start; int i = 0;
+        while (i<length) {
+            node* q = p;
+            p = p->next;
+            delete q;
+            i++;
+        }
+        this->start = NULL;
+        this->end = NULL;
+        this->length = 0;
     }
-    delete p;
 }
 
-node* lista::getStart()
+node* lista::getStart() const
 {
     return this->start;
 }
 
-int lista::getLength()
+int lista::getLength() const
 {
     return this->length;
 }
@@ -51,10 +54,18 @@ void lista::inserareInceput(int x)
     aux->info = x;
     aux->next = start;
     aux->before = NULL;
-    if (start != NULL)
+    if (start == NULL)
+    {
+        start = aux; end = aux;
+    }
+    else
+    {
         start->before = aux;
-    start = aux;
-    end->next = start;
+        aux->next = start;
+        aux->before = end;
+        end->next = aux;
+        start = aux;
+    }
     length++;
 }
 void lista::inserareFinal(int x)
@@ -95,30 +106,60 @@ void lista::inserarePoz(int x, int poz)
     {
         int i = 0;
         node* p = start;
-        while (i != poz)
+        while (i < poz-1)
         {
-            p = p->next; i++;
+            p = p->next; 
+            i++;
         }
         aux->next = p;
         aux->before = p->before;
+        p->before->next = aux;
         p->before = aux;
+
 
     }
     length++;
 }
 void lista::stergerePoz(int poz)
 {
-    int i = 0;
-    node* aux = start;
-    while (i != poz)
+    
+   
+    if (poz == 0)
     {
-        aux = aux->next;
-        i++;
+        node* aux = start;
+        aux->next->before = end;
+        end->next = aux->next;
+        start = start->next;
+        delete aux;
+        this->length--;
     }
-    aux->before->next = aux->next;
-    aux->next->before = aux->before;
-    delete aux;
-    this->length--;
+    else
+    {
+        if (poz == length - 1)
+        {
+            node* aux = end;
+            end->before->next = start;
+            start->before = end->before;
+            end = end->before;
+            delete aux;
+            this->length--;
+        }
+        else
+        {
+            int i = 0;
+            node* aux = start;
+            while (i != poz - 1)
+            {
+                aux = aux->next;
+                i++;
+            }
+            aux->before->next = aux->next;
+            aux->next->before = aux->before;
+            delete aux;
+            this->length--;
+        }
+    }
+    
 }
 int lista::cautare(int x)
 {
@@ -137,7 +178,7 @@ int lista::cautare(int x)
 
     }
     if (gasit == false)
-        cout << "Nu a fost gasit in lista";
+        return -1;
 }
 int lista::Suma()
 {
@@ -146,6 +187,7 @@ int lista::Suma()
     {
         suma += aux->info;
         aux = aux->next;
+        i++;
     }
     return suma;
 }
@@ -178,34 +220,41 @@ int lista::detMin()
 
 void lista::inversare() //inversare
 {
-    lista* L = new lista;
-    node* aux = this->end;
+    node* aux1 = start, * aux2 = end;
     int i = 0;
-    while (i < length)
+    while (i < length / 2)
     {
-        L->inserareFinal(aux->info);
-        aux = aux->before;
+        int aux = aux1->info;
+        aux1->info = aux2->info;
+        aux2->info = aux;
+        aux1 = aux1->next;
+        aux2 = aux2->before;
+        i++;
     }
-    *this = *L;  //???? oare merge ????
+    
 }
 
-ostream& operator << (ostream& out, lista& L)
+ostream& operator << (ostream& cout, lista& L)  //supraincarcare <<
 {
-    node* aux = L.getStart();
-    while (aux->getNext()!=L.getStart())
+    if (L.length > 0)
     {
-        out << aux->getInfo() << ' ';
-        aux = aux->getNext();
+        node* aux = L.start; int i = 1;
+        while (i<=L.length)
+        {
+            cout << aux->getInfo() << ' ';
+            aux = aux->getNext();
+            i++;
+        }
     }
-    return out;
+    else cout << "Lista vida";
+    return cout;
 
 }
 
-istream& operator >> (istream& in, lista& L)
+istream& operator >> (istream& in, lista& L)    //supraincarcare operator >>
 {
     int lungime, i, x;
-    cout << "Introduceti lungimea listei";
-    cin >> lungime;
+    in >> lungime;
     for (i = 0; i < lungime; i++)
     {
         in >> x;
@@ -215,12 +264,22 @@ istream& operator >> (istream& in, lista& L)
     
 }
 
-void lista::operator = (lista& L) //supraincarcare operator =
+void lista::operator = (const lista& L) //supraincarcare operator =
 {
-    this->~lista();
-    this->length = L.length;
-    this->start = L.start;
-    this->end = L.end;
+    if (this->getLength() != 0)
+    {
+        this->~lista();
+        this->start = L.start;
+        this->end = L.end;
+        this->length = L.length;
+    }
+    else
+    {
+        this->start = L.start;
+        this->end = L.end;
+        this->length = L.length;
+    }
+    
 }
 
 int lista::operator [] (int poz)  //supraincarcare operator []
@@ -244,46 +303,47 @@ int lista::operator [] (int poz)  //supraincarcare operator []
 void lista::operator * (int scalar)  //supraincarcare operator *
 {
     node* aux = new node;
-    aux = start;
-    while (aux->next != this->start)
+    int i = 0;
+    aux = start; 
+    while (i<length)
     {
         aux->info *= scalar;
         aux = aux->next;
+        i++;
     }
 }
 
-lista& lista::operator +(lista& L)  //supraincarcare operator + 
+lista& lista::operator + (lista& L)  //supraincarcare operator + 
 { 
-    
-    lista newL;
-    newL.start = this->start;
-    newL.end = this->end;
+    lista* newL = new lista;
+    newL->start = this->start;
+    newL->end = this->end;
     node* aux = new node;
     aux = L.start;
-    newL.end->next = aux;
-    aux->before = newL.end;
-    newL.end = L.end;
-    newL.end->next = newL.start;
-    newL.start->before = newL.end;
-    newL.length = this->length + L.length;
-    return newL;
+    newL->end->next = aux;
+    aux->before = newL->end;
+    newL->end = L.end;
+    newL->end->next = newL->start;
+    newL->start->before = newL->end;
+    newL->length = this->length + L.length;
+    return* newL;
 }
-
-bool lista::operator < (lista L)  //supraincarcare operator <
+ 
+int lista::operator < (lista L)  //supraincarcare operator <
 {
     int x, y;
     x = this->Suma();
     y = L.Suma();
     if (x < y)
-        return true;
-    else return false;
+        return 1;
+    else return 0;
 }
-bool lista::operator > (lista L)  //supraincarcare operator >
+int lista::operator > (lista L)  //supraincarcare operator >
 {
     int x, y;
     x = this->Suma();
     y = L.Suma();
     if (x > y)
-        return true;
-    else return false;
+        return 1;
+    else return 0;
 }

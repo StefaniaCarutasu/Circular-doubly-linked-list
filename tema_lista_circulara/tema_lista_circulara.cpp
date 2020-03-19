@@ -1,7 +1,12 @@
 #include <iostream>
+#include "lista.h"
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    lista L, M, N;
+    cin >> L >> M;
+    
+    return 0;
 }
 

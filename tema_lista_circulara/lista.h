@@ -9,30 +9,30 @@ class lista
     node* end;
     int length;
 public:
-    lista(); //facut
-    lista(int[], int); //facut
+    lista(); //facut merge 
+    lista(int[], int); //facut oare?
     lista(const lista& l); //facut
     ~lista(); //facut
-    node* getStart();
-    int getLength();
-    void inserareInceput(int);  //facut
-    void inserarePoz(int, int);  //facut
-    void inserareFinal(int);    //facut
-    void stergerePoz(int);  //facut
-    int cautare(int);   //facut
-    int Suma(); //facut
-    int nrElem();   //facut
-    void inversare();   //facut
-    int detMin();   //facut
-    int detMax();   //facut
-    friend ostream& operator << (ostream&, const lista&);   //
-    friend istream& operator >> (istream&, const lista&);   //
+    node* getStart() const;  //facut
+    int getLength() const;    //facut
+    void inserareInceput(int);  //facut si merge
+    void inserarePoz(int, int);  //facut si merge
+    void inserareFinal(int);    //facut si merge
+    void stergerePoz(int);  //facut si merge
+    int cautare(int);   //facut si merge
+    int Suma(); //facut si merge
+    int nrElem();   //facut si merge
+    void inversare();   //facut si merge sort of?????????
+    int detMin();   //facut si merge
+    int detMax();   //facut si merge
+    friend ostream& operator << (ostream&, lista&);   //facut si merge
+    friend istream& operator >> (istream&, lista&);   //facut si MERGE
     lista& operator + (lista&);    //facut
-    bool operator > (lista);    //facut
-    bool operator < (lista);    //facut
-    int operator [] (int);    //facut
-    void operator * (int);   //facut
-    void operator = (lista&);  //facut
+    int operator > (lista);    //facut
+    int operator < (lista);    //facut
+    int operator [] (int);    //facut si merge
+    void operator * (int);   //facut si merge
+    void operator = (const lista&);  //facut si merge
     
 };
 
