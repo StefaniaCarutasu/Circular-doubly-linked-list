@@ -6,6 +6,7 @@ int main()
 {
     lista L, M, N;
     cin >> L >> M;
+    cout << L;
     
     return 0;
 }

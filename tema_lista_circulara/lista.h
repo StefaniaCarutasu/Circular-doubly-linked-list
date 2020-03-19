@@ -10,9 +10,9 @@ class lista
     int length;
 public:
     lista(); //facut merge 
-    lista(int[], int); //facut oare?
+    lista(node*); //facut oare?
     lista(const lista& l); //facut
-    ~lista(); //facut
+    ~lista(); //facut si merge cred?
     node* getStart() const;  //facut
     int getLength() const;    //facut
     void inserareInceput(int);  //facut si merge
@@ -27,9 +27,9 @@ public:
     int detMax();   //facut si merge
     friend ostream& operator << (ostream&, lista&);   //facut si merge
     friend istream& operator >> (istream&, lista&);   //facut si MERGE
-    lista& operator + (lista&);    //facut
-    int operator > (lista);    //facut
-    int operator < (lista);    //facut
+    lista& operator + (lista&);    //facut merge dar nu stiu de ce
+    int operator > (lista);    //facut si merge dar nu stiu dc
+    int operator < (lista);    //facut si merge dar nu stiu de ce
     int operator [] (int);    //facut si merge
     void operator * (int);   //facut si merge
     void operator = (const lista&);  //facut si merge

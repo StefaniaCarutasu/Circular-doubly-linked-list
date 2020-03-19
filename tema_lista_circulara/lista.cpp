@@ -5,13 +5,10 @@ using namespace std;
 
 lista::lista() : length(0), start(NULL), end(NULL) {} //constructor fara parametrii
 
-lista::lista(int v[], int n)  //constructor cu prametrii
+lista::lista(node *n)  //constructor cu prametrii
 {
-    length = 0; start = NULL; end = NULL;
-    for (int i = 0; i < n; i++)
-    {
-        inserareFinal(v[i]);
-    }
+    this->start = n;
+    this->end = n;
 }
 
 lista::lista(const lista& L) //constructor de copiere
