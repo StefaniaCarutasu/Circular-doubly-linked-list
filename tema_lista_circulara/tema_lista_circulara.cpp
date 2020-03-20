@@ -5,7 +5,8 @@ using namespace std;
 int main()
 {
     lista L, M, N;
-    cin >> L >> M;
+    cin >> L;
+    L.inversare();
     cout << L;
     
     return 0;

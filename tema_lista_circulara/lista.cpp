@@ -39,13 +39,13 @@ node* lista::getStart() const
     return this->start;
 }
 
-int lista::getLength() const
+int lista::getLength() const    //returnarea lungimii listei
 {
     return this->length;
 }
 
 
-void lista::inserareInceput(int x)
+void lista::inserareInceput(int x)      //inserarea la inceputul listei
 {
     node* aux = new node;
     aux->info = x;
@@ -65,7 +65,7 @@ void lista::inserareInceput(int x)
     }
     length++;
 }
-void lista::inserareFinal(int x)
+void lista::inserareFinal(int x)    //inserarea la finalul listei
 {
     node* aux = new node;
     aux->info = x;
@@ -85,7 +85,7 @@ void lista::inserareFinal(int x)
     length++;
 
 }
-void lista::inserarePoz(int x, int poz)
+void lista::inserarePoz(int x, int poz)     //inserarea unei valori date pe o pozitie data
 {
     node* aux = new node;
     aux->info = x;
@@ -117,7 +117,7 @@ void lista::inserarePoz(int x, int poz)
     }
     length++;
 }
-void lista::stergerePoz(int poz)
+void lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie data
 {
     
    
@@ -158,26 +158,28 @@ void lista::stergerePoz(int poz)
     }
     
 }
-int lista::cautare(int x)
+int lista::cautare(int x)   //cautarea unei valori in lista
 {
-    node* aux = start;
-    bool gasit = false;
+    node* aux = this->start;
+    int gasit = 0;
     int i = 0;
-    while (i < length && gasit == false)
+    if (this->length == 0)
+        return -1;
+    while (i < length && gasit == 0)
     {
         if (aux->info == x)
-            return i;
+            gasit = 1;
         else
         {
             aux = aux->next;
             i++;
-        }
-
+        } 
     }
-    if (gasit == false)
-        return -1;
+    if (gasit)
+        return i;
+    else return -1;
 }
-int lista::Suma()
+int lista::Suma()   //suma elementelor din lista
 {
     node* aux = start; int suma = 0, i = 0;
     while (i < length)
@@ -188,11 +190,11 @@ int lista::Suma()
     }
     return suma;
 }
-int lista::nrElem()
+int lista::nrElem()   //determinarea numarului de elemente
 {
     return this->length;
 }
-int lista::detMax()
+int lista::detMax() //determinarea maximului
 {
     node* aux = start->next; int max = start->info;
     for (int i = 1; i < length; i++)
@@ -203,7 +205,7 @@ int lista::detMax()
     }
     return max;
 }
-int lista::detMin()
+int lista::detMin() //determinarea minimului
 {
     node* aux = start->next; int min = start->info;
     for (int i = 1; i < length; i++)
@@ -216,19 +218,21 @@ int lista::detMin()
 }
 
 void lista::inversare() //inversare
-{
-    node* aux1 = start, * aux2 = end;
-    int i = 0;
-    while (i < length / 2)
+{ 
+    node* aux = this->end;
+    int i = 0, l = this->length;
+    while (i < l)
     {
-        int aux = aux1->info;
-        aux1->info = aux2->info;
-        aux2->info = aux;
-        aux1 = aux1->next;
-        aux2 = aux2->before;
+        this->inserareFinal(aux->info);
+        aux = aux->before;
         i++;
     }
-    
+    i = 0;
+    while (i < l)
+    {
+        this->stergerePoz(0);
+        i++;
+    }
 }
 
 ostream& operator << (ostream& cout, lista& L)  //supraincarcare <<
