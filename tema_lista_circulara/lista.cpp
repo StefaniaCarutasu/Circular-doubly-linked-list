@@ -9,6 +9,7 @@ lista::lista(node *n)  //constructor cu prametrii
 {
     this->start = n;
     this->end = n;
+    this->length = 1;
 }
 
 lista::lista(const lista& L) //constructor de copiere
@@ -37,11 +38,6 @@ lista::~lista() //destructor
 node* lista::getStart() const
 {
     return this->start;
-}
-
-int lista::getLength() const    //returnarea lungimii listei
-{
-    return this->length;
 }
 
 
@@ -91,71 +87,72 @@ void lista::inserarePoz(int x, int poz)     //inserarea unei valori date pe o po
     aux->info = x;
     aux->next = NULL;
     aux->before = NULL;
-    if (poz <= 0)
+    if (poz <= 0 || length==0)   // daca lista este vida sau pozitia introdusa este <0 atunci este inserat la inceput
         this->inserareInceput(x);
-    if (poz >= length)
-        this->inserareFinal(x);
-    if (length == 0)
-    {
-        this->start = aux;
-    }
     else
     {
-        int i = 0;
-        node* p = start;
-        while (i < poz-1)
+        if (poz >= length)  //daca pozitia introdusa este mai mare decat lungimea listei atunci este inserat la final
+            this->inserareFinal(x);
+        else
         {
-            p = p->next; 
-            i++;
+            int i = 0;
+            node* p = start;
+            while (i < poz - 1)
+            {
+                p = p->next;
+                i++;
+            }
+            aux->next = p;
+            aux->before = p->before;
+            p->before->next = aux;
+            p->before = aux;
+            length++;
         }
-        aux->next = p;
-        aux->before = p->before;
-        p->before->next = aux;
-        p->before = aux;
-
-
     }
-    length++;
+   
 }
 void lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie data
 {
     
-   
-    if (poz == 0)
-    {
-        node* aux = start;
-        aux->next->before = end;
-        end->next = aux->next;
-        start = start->next;
-        delete aux;
-        this->length--;
-    }
-    else
-    {
-        if (poz == length - 1)
-        {
-            node* aux = end;
-            end->before->next = start;
-            start->before = end->before;
-            end = end->before;
-            delete aux;
-            this->length--;
-        }
-        else
-        {
-            int i = 0;
-            node* aux = start;
-            while (i != poz - 1)
-            {
-                aux = aux->next;
-                i++;
-            }
-            aux->before->next = aux->next;
-            aux->next->before = aux->before;
-            delete aux;
-            this->length--;
-        }
-    }
+   if(poz>=0 && poz<length)
+   {
+       if (poz == 0)
+       {
+           node* aux = start;
+           aux->next->before = end;
+           end->next = aux->next;
+           start = start->next;
+           delete aux;
+           this->length--;
+       }
+       else
+       {
+           if (poz == length - 1)
+           {
+               node* aux = end;
+               end->before->next = start;
+               start->before = end->before;
+               end = end->before;
+               delete aux;
+               this->length--;
+           }
+           else
+           {
+               int i = 0;
+               node* aux = start;
+               while (i != poz - 1)
+               {
+                   aux = aux->next;
+                   i++;
+               }
+               aux->before->next = aux->next;
+               aux->next->before = aux->before;
+               delete aux;
+               this->length--;
+           }
+       }
+
+   }
     
 }
 int lista::cautare(int x)   //cautarea unei valori in lista
@@ -217,8 +214,8 @@ int lista::detMin() //determinarea minimului
     return min;
 }
 
-void lista::inversare() //inversare
-{ 
+void lista::inversare() //inversare: pornesc de la final si adaug fiecare element la finalul listei
+{                       //apoi sterg primele l(=lungimea listei initale) elemente
     node* aux = this->end;
     int i = 0, l = this->length;
     while (i < l)
@@ -267,7 +264,7 @@ istream& operator >> (istream& in, lista& L)    //supraincarcare operator >>
 
 void lista::operator = (const lista& L) //supraincarcare operator =
 {
-    if (this->getLength() != 0)
+    if (this->nrElem() != 0)
     {
         this->~lista();
         this->start = L.start;
