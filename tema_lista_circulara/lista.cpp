@@ -3,6 +3,22 @@
 #include<iostream>
 using namespace std;
 
+class listaVida : public exception 
+{
+    const char* what() const throw ()
+    {
+        return "Lista vida";
+    }
+};
+
+class nuExista : public exception
+{
+    const char* what() const throw ()
+    {
+        return "Nu exista aceasta pozitie in lista";
+    }
+};
+
 lista::lista() : length(0), start(NULL), end(NULL) {} //constructor fara parametrii
 
 lista::lista(node *n)  //constructor cu prametrii
@@ -114,46 +130,50 @@ void lista::inserarePoz(int x, int poz)     //inserarea unei valori date pe o po
 void lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie data
 {
     
-   if(poz>=0 && poz<length)
-   {
-       if (poz == 0)
-       {
-           node* aux = start;
-           aux->next->before = end;
-           end->next = aux->next;
-           start = start->next;
-           delete aux;
-           this->length--;
-       }
-       else
-       {
-           if (poz == length - 1)
-           {
-               node* aux = end;
-               end->before->next = start;
-               start->before = end->before;
-               end = end->before;
-               delete aux;
-               this->length--;
-           }
-           else
-           {
-               int i = 0;
-               node* aux = start;
-               while (i != poz - 1)
-               {
-                   aux = aux->next;
-                   i++;
-               }
-               aux->before->next = aux->next;
-               aux->next->before = aux->before;
-               delete aux;
-               this->length--;
-           }
-       }
+    if (poz < 0)
+        throw listaVida();
+    else if (poz > length)
+        throw nuExista();
+    else
+    {
+        if (poz == 0)
+        {
+            node* aux = start;
+            aux->next->before = end;
+            end->next = aux->next;
+            start = start->next;
+            delete aux;
+            this->length--;
+        }
+        else
+        {
+            if (poz == length - 1)
+            {
+                node* aux = end;
+                end->before->next = start;
+                start->before = end->before;
+                end = end->before;
+                delete aux;
+                this->length--;
+            }
+            else
+            {
+                int i = 0;
+                node* aux = start;
+                while (i != poz - 1)
+                {
+                    aux = aux->next;
+                    i++;
+                }
+                aux->before->next = aux->next;
+                aux->next->before = aux->before;
+                delete aux;
+                this->length--;
+            }
+        }
+    }
 
-   }
-    
+       
 }
 int lista::cautare(int x)   //cautarea unei valori in lista
 {
@@ -161,7 +181,7 @@ int lista::cautare(int x)   //cautarea unei valori in lista
     int gasit = 0;
     int i = 0;
     if (this->length == 0)
-        return -1;
+        throw  listaVida();
     while (i < length && gasit == 0)
     {
         if (aux->info == x)
