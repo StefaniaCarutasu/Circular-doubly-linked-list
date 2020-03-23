@@ -10,15 +10,16 @@ class lista
     int length;
    
     void inserareInceput(int);  
-    void inserareFinal(int);    
+    void inserareFinal(int);  
+    node* getStart() const;
+
 public:
     lista(); 
     lista(node*); 
     lista(const lista& l); 
     ~lista(); 
-    node* getStart() const;
     void inserarePoz(int, int);  
-    void stergerePoz(int);  
+    int stergerePoz(int);  
     int cautare(int);   
     int Suma(); 
     int nrElem();   
@@ -28,12 +29,11 @@ public:
     friend ostream& operator << (ostream&, lista&);   
     friend istream& operator >> (istream&, lista&);   
     lista& operator + (lista&);   
-    int operator > (lista);    
-    int operator < (lista);    
+    bool operator > (lista&);    
+    bool operator < (lista&);    
     int operator [] (int);   
     void operator * (int);   
-    void operator = (const lista&);  
-    
+    void operator = (lista&);  
 };
 
 

@@ -56,7 +56,6 @@ node* lista::getStart() const
     return this->start;
 }
 
-
 void lista::inserareInceput(int x)      //inserarea la inceputul listei
 {
     node* aux = new node;
@@ -127,7 +126,7 @@ void lista::inserarePoz(int x, int poz)     //inserarea unei valori date pe o po
     }
    
 }
-void lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie data
+int lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie data
 {
     
     if (poz < 0)
@@ -139,36 +138,42 @@ void lista::stergerePoz(int poz)    //stergerea unei valori de pe o pozietie dat
         if (poz == 0)
         {
             node* aux = start;
+            int i = start->info;
             aux->next->before = end;
             end->next = aux->next;
             start = start->next;
             delete aux;
             this->length--;
+            return i;
         }
         else
         {
             if (poz == length - 1)
             {
                 node* aux = end;
+                int i = end->info;
                 end->before->next = start;
                 start->before = end->before;
                 end = end->before;
                 delete aux;
                 this->length--;
+                return i;
             }
             else
             {
                 int i = 0;
                 node* aux = start;
-                while (i != poz - 1)
+                while (i != poz)
                 {
                     aux = aux->next;
                     i++;
                 }
+                i = aux->info;
                 aux->before->next = aux->next;
                 aux->next->before = aux->before;
                 delete aux;
                 this->length--;
+                return i;
             }
         }
     }
@@ -196,9 +201,11 @@ int lista::cautare(int x)   //cautarea unei valori in lista
         return i;
     else return -1;
 }
+
 int lista::Suma()   //suma elementelor din lista
 {
-    node* aux = start; int suma = 0, i = 0;
+    node* aux = start; 
+    int suma = 0, i = 0;
     while (i < length)
     {
         suma += aux->info;
@@ -207,10 +214,12 @@ int lista::Suma()   //suma elementelor din lista
     }
     return suma;
 }
+
 int lista::nrElem()   //determinarea numarului de elemente
 {
     return this->length;
 }
+
 int lista::detMax() //determinarea maximului
 {
     node* aux = start->next; int max = start->info;
@@ -222,6 +231,7 @@ int lista::detMax() //determinarea maximului
     }
     return max;
 }
+
 int lista::detMin() //determinarea minimului
 {
     node* aux = start->next; int min = start->info;
@@ -282,38 +292,32 @@ istream& operator >> (istream& in, lista& L)    //supraincarcare operator >>
     
 }
 
-void lista::operator = (const lista& L) //supraincarcare operator =
+int lista::operator [] (int poz)  //supraincarcare operator []
+{
+    node* p = this->start;
+    int i = 0;
+    while (i<this->length) 
+    {
+        if (i == poz) 
+            return p->info;
+        p = p->next;
+        i++;
+    }
+    return -1;
+}
+
+void lista::operator = (lista& L) //supraincarcare operator =
 {
     if (this->nrElem() != 0)
     {
         this->~lista();
-        this->start = L.start;
-        this->end = L.end;
-        this->length = L.length;
+        for (int i = 0; i < L.length; i++)
+            this->inserareFinal(L[i]);
     }
     else
     {
-        this->start = L.start;
-        this->end = L.end;
-        this->length = L.length;
-    }
-    
-}
-
-int lista::operator [] (int poz)  //supraincarcare operator []
-{
-    if (poz > this->length || poz < 0)
-        return -1;
-    else
-    {
-        node* aux = start;
-        int i = 0;
-        while (i != poz)
-        {
-            aux = aux->next;
-            i++;
-        }
-        return aux->info;
+        for (int i = 0; i < L.length; i++)
+            this->inserareFinal(L[i]);
     }
 
 }
@@ -347,21 +351,16 @@ lista& lista::operator + (lista& L)  //supraincarcare operator +
     return* newL;
 }
  
-int lista::operator < (lista L)  //supraincarcare operator <
+bool lista::operator < (lista& L)  //supraincarcare operator <
 {
-    int x, y;
-    x = this->Suma();
-    y = L.Suma();
-    if (x < y)
-        return 1;
-    else return 0;
+    if (this->Suma() < L.Suma())
+        return true;
+    return false;
 }
-int lista::operator > (lista L)  //supraincarcare operator >
+bool lista::operator > (lista& L)  //supraincarcare operator >
 {
-    int x, y;
-    x = this->Suma();
-    y = L.Suma();
-    if (x > y)
-        return 1;
-    else return 0;
+    if (this->Suma() > L.Suma())
+        return true;
+    return false;
 }
+
