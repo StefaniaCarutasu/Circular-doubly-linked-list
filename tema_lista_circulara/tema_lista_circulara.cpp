@@ -51,7 +51,7 @@ int main()
     cout << L.Suma();  //38*/
 
     testeLista();
-    cout << "Testele au trecut bv fata meriti 10";
+    cout << "Testele au trecut ";
 
     return 0;
 }
